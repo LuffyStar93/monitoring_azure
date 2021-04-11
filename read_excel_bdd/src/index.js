@@ -1,4 +1,4 @@
-//var connec_bdd = require('./management_bdd');
+var connec_bdd = require('./management_bdd');
 const xlsxFile = require('read-excel-file/node'); // imports the package.
 
 /**
@@ -8,9 +8,9 @@ const xlsxFile = require('read-excel-file/node'); // imports the package.
  * et depuis faire l'envers pour creer la table
  */
 
-//console.log('Section BDD');
+console.log('Section BDD');
 //connec_bdd.create_bdd(); //utiliser pour la premier connexion
-//connec_bdd.create_table(); //une fois cree la BDD decommenter cet ligne mais commenter celui d avant, la ligne 5
+connec_bdd.create_table(); //une fois cree la BDD decommenter cet ligne mais commenter celui d avant, la ligne 5
 
 //file excel [0] SubscriptionName
 //file excel [1] SubscriptionGuid
@@ -44,23 +44,24 @@ console.log('lecture du fichier excel');
 
             //on filtre les donnes qu on veut utiliser
             //peut etre il faudra modifier cost, remplacer ',' par '.' comme Amin a dit, je sais pas?
-            let conso = {
-                promo: rows[i][0],
-                date: rows[i][2],
-                service: rows[i][4],
-                cost: rows[i][9]
-            }
+            // let conso = {
+            //     promo: rows[i][0],
+            //     date: rows[i][2],
+            //     service: rows[i][4],
+            //     cost: rows[i][9]
+            // }
             
-            //enregistre en forme json
-            liste_conso.push(conso);
+            // //enregistre en forme json
+            // liste_conso.push(conso);
 
             //enregistre en forme des tuples
-            //liste_conso.push([data[i][0],data[i][2],rows[i][4],rows[i][9]])
+            liste_conso.push([rows[i][0],rows[i][2],rows[i][4],rows[i][9]])
             
         }
         //lecture de la consomation du fichier excel recuperé
         console.log(liste_conso);
         
+        //POUR LE MOMENT IL Y A UNE ERREUR, JE SUIS EN TRAIN DE LE TRAITER
         //execution de la function d'enregestriment des donnes
         //ça marche pas, je suis en train de voir au niveaux de la commande d enregestriment node
         //cuando on doit utiliser un array ou un json.
