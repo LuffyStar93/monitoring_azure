@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/LuffyStar93/monitoring_azure#readme",
   "dependencies": {
+    "dotenv": "^8.2.0",
     "mysql": "^2.18.1",
     "mysql-client": "^0.3.0",
     "mysql2": "^2.2.5",
