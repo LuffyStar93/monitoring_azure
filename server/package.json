@@ -1,0 +1,25 @@
+{
+  "name": "monitoring_azure",
+  "description": "Welcome",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "nodemon server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/LuffyStar93/monitoring_azure.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/LuffyStar93/monitoring_azure/issues"
+  },
+  "homepage": "https://github.com/LuffyStar93/monitoring_azure#readme",
+  "dependencies": {
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "mysql2": "^2.2.5"
+  }
+}
