@@ -1,0 +1,7 @@
+node_modules
+les4M-vm_az_key.pem
+.gitignore
+server/package-lock.json
+server/db/index.js
+server/.env
+.DS_Store
