@@ -24,6 +24,17 @@ app.get('/api/all', async (req, res) => {
   
 })
 
+app.get('/api/nancy', async (req, res) => {
+  const query = "SELECT * FROM consomation where promo like '%nancy%' order by date DESC";
+  pool.query(query, (error, results) => {
+    if(!results[0]){
+      res.json({status : "not found"})
+    }
+    console.log({results})
+    res.json({ results });
+  })
+  
+})
 
 app.get('/api/strasbourg', async (req, res) => {
   const query = "SELECT * FROM consomation where promo like '%strasbourg%' order by date DESC";
@@ -138,7 +149,7 @@ app.get('/api/aulnay', async (req, res) => {
 
 app.get('/api/endpoints', (req, res) =>{
   res.send(['http://localhost:3001/api/aulnay', 'http://localhost:3001/api/rennes', 'http://localhost:3001/api/marseille', 'http://localhost:3001/api/castelnau', 
-'http://localhost:3001/api/nouvelle-aquitaine', 'http://localhost:3001/api/bordeaux', 'http://localhost:3001/api/rennes_ia', 'http://localhost:3001/api/nantes', 'http://localhost:3001/api/strasbourg', 'http://localhost:3001/api/all'])
+'http://localhost:3001/api/nouvelle-aquitaine', 'http://localhost:3001/api/bordeaux', 'http://localhost:3001/api/rennes_ia', 'http://localhost:3001/api/nantes', 'http://localhost:3001/api/strasbourg', 'http://localhost:3001/api/all', 'http://localhost:3001/api/nancy'])
 })
 
 
