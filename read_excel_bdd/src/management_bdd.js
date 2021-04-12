@@ -1,11 +1,13 @@
+//var mysql = require('mysql');
 const mysql = require('mysql2');
 
 //il faudra voir comme diferencier la connection pour lapremier fois, sans bdd et
 //depuis avec la bdd, A VOIR!!
 var con = mysql.createConnection({
-    host: "localhost",//"52.167.230.124", //==> VM les4M
+    host: "localhost", //"52.247.113.111",////==> VM les4M
     user: "root",
-    /*password: "pwd", //==> utiliser avec la VM les4M */
+    //password: "pwd", /*//==> utiliser avec la VM les4M */
+    //port: "3306"
     database : 'monitoring' //==> enlever pour la premier utilisation
   });
 
@@ -35,7 +37,7 @@ module.exports = {
             console.log("Connecté à la base de données MySQL!");
       
       //il faut modifier depuis le types des champs apres
-      con.query("CREATE TABLE IF NOT EXISTS consomation (id INTEGER AUTO_INCREMENT PRIMARY KEY, promo VARCHAR(255) NOT NULL , date VARCHAR(50), cost VARCHAR(200)) ", function (err, result) {
+      con.query("CREATE TABLE IF NOT EXISTS consomation (id INTEGER AUTO_INCREMENT PRIMARY KEY, promo VARCHAR(255) NOT NULL , date VARCHAR(50), service VARCHAR(200) ,cost VARCHAR(200)) ", function (err, result) {
               if (err) throw err;
               console.log("table consomation créée !");
             });
@@ -43,17 +45,20 @@ module.exports = {
     },
     save_data: async function (donnes) {
       
-      var liste_json = JSON.stringify(donnes);// stringify convertit une valeur JavaScript en chaîne JSON
-      //console.log('valeur JSON ==> ', json);
+      //var liste_json = JSON.parse(JSON.stringify(donnes));//JSON.stringify(donnes);// stringify convertit une valeur JavaScript en chaîne JSON
+      var liste_json = JSON.stringify(donnes);
+      console.log('valeur JSON ==> ', liste_json);
+
       con.connect(function(err) {
         if (err) throw err;
           console.log("Connecté à la base de données MySQL dans save_data!"); 
       
-      //je continue à tester comment enregistrer avec plusiers transactions
-        let req_query = "INSERT INTO `consomation` (`promo` ,`date`,`service`,`cost`) VALUES ? ;";
+      //je continue à tester comment enregistrer avec plusiers transactions  
+        //let req_query = "INSERT INTO `consomation` (`promo` ,`date`,`service`,`cost`) VALUES ('test1','test1','test1','test1') ;";
+        let req_query = "INSERT INTO `consomation` (`promo` ,`date`,`service`,`cost`) VALUES '?' ;";
         console.log('********** requete *********');
         console.log(req_query);
-        con.query(req_query, donnes, function (err, result, fields) {
+        con.query(req_query, liste_json, function (err, result, fields) {
               if (err) throw err;
               console.log("donnes enregistre !");
               console.log("Number of records inserted: " + result.affectedRows);

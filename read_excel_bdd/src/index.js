@@ -2,10 +2,7 @@ var connec_bdd = require('./management_bdd');
 const xlsxFile = require('read-excel-file/node'); // imports the package.
 
 /**
- * executer node index.js, si on utilise npm start, il y a un erreur qui sort, en relation aux promises il faut que je vois ça...
  * l execution du fichier prends quelque secondes, premier s'affichera les messages et depuis les donnes
- * pour la premier connexion decommenté connec_bdd.create_bdd(); et commenté connec_bdd.create_table();
- * et depuis faire l'envers pour creer la table
  */
 
 console.log('Section BDD');
@@ -26,7 +23,7 @@ connec_bdd.create_table(); //une fois cree la BDD decommenter cet ligne mais com
 /**
  *  BLOQUE LECTURE FICHIER EXCEL
  */
-console.log('lecture du fichier excel');
+//console.log('lecture du fichier excel');
     
     xlsxFile('./files_excel/7adeb9ae-5a8b-497d-897d-aab0d1f6da85.xlsx').then(rows => {
         // `rows` is an array of rows
@@ -49,25 +46,98 @@ console.log('lecture du fichier excel');
             //     date: rows[i][2],
             //     service: rows[i][4],
             //     cost: rows[i][9]
-            // }
-            
+            // } // en utlisant cet mode json ça marche pas, on peut faire la requete
+
+                       
             // //enregistre en forme json
             // liste_conso.push(conso);
 
             //enregistre en forme des tuples
-            liste_conso.push([rows[i][0],rows[i][2],rows[i][4],rows[i][9]])
+            liste_conso.push([rows[i][0],rows[i][2],rows[i][4],rows[i][9]]);
             
         }
         //lecture de la consomation du fichier excel recuperé
-        console.log(liste_conso);
+        //console.log(liste_conso);
         
-        //POUR LE MOMENT IL Y A UNE ERREUR, JE SUIS EN TRAIN DE LE TRAITER
         //execution de la function d'enregestriment des donnes
         //ça marche pas, je suis en train de voir au niveaux de la commande d enregestriment node
         //cuando on doit utiliser un array ou un json.
-        //connec_bdd.save_data(liste_conso);
+        connec_bdd.save_data(liste_conso);
         
 
     });
+    /** TESTS AVEC DIFFERENTES TAILLES DE ARRAY, MAIS ÇA MARCHE PAS */
+    // lista = [[ 'DP100 Sponsorship', '1/14/2021', 'Logic Apps', '0,0001' ],
+    // [ 'DP100 Sponsorship', '1/14/2021', 'Virtual Network', '0,0792' ],
+    // [ 'DP100 Sponsorship', '1/14/2021', 'Logic Apps', '0,00000072' ],
+    // [ 'DP100 Sponsorship', '1/14/2021', 'Logic Apps', '0,00025' ],
+    // [
+    //   'DP100 Sponsorship',
+    //   '1/14/2021',
+    //   'Virtual Machines',
+    //   '6,05600592'
+    // ],
+    // [ 'DP100 Sponsorship', '1/14/2021', 'Bandwidth', '0,004430823' ],
+    // [ 'DP100 Sponsorship', '1/14/2021', 'Bandwidth', '0,00000275' ],
+    // [ 'DP100 Sponsorship', '1/14/2021', 'Storage', '0,3746340864' ],
+    // [
+    //   'DP100 Sponsorship',
+    //   '1/14/2021',
+    //   'Virtual Network',
+    //   '0,040933332'
+    // ],
+    // [ 'DP100 Sponsorship', '1/15/2021', 'Logic Apps', '0,0001' ],
+    // [
+    //   'DP100 Sponsorship',
+    //   '1/15/2021',
+    //   'Virtual Network',
+    //   '0,0935949996'
+    // ],
+    // [ 'DP100 Sponsorship', '1/15/2021', 'Logic Apps', '0,00000072' ],
+    // [ 'DP100 Sponsorship', '1/15/2021', 'Logic Apps', '0,00025' ],
+    // [
+    //   'DP100 Sponsorship',
+    //   '1/15/2021',
+    //   'Virtual Machines',
+    //   '6,05600112'
+    // ],
+    // [ 'DP100 Sponsorship', '1/15/2021', 'Bandwidth', '0,003270678' ],
+    // [ 'DP100 Sponsorship', '1/15/2021', 'Bandwidth', '0,00000025' ],
+    // [ 'DP100 Sponsorship', '1/15/2021', 'Storage', '0,3746340864' ],
+    // [
+    //   'DP100 Sponsorship',
+    //   '1/15/2021',
+    //   'Virtual Network',
+    //   '0,052527776'
+    // ],
+    // [ 'DP100 Sponsorship', '1/16/2021', 'Logic Apps', '0,0001' ],
+    // [
+    //   'DP100 Sponsorship',
+    //   '1/16/2021',
+    //   'Virtual Network',
+    //   '0,0899510004'
+    // ],
+    // [ 'DP100 Sponsorship', '1/16/2021', 'Logic Apps', '0,00000072' ],
+    // [ 'DP100 Sponsorship', '1/16/2021', 'Logic Apps', '0,00025' ],
+    // [ 'DP100 Sponsorship', '1/16/2021', 'Virtual Machines', '6,0400056' ],
+    // [ 'DP100 Sponsorship', '1/16/2021', 'Bandwidth', '0,000463623' ],
+    // [ 'DP100 Sponsorship', '1/16/2021', 'Storage', '0,3746340864' ],
+    // [
+    //   'DP100 Sponsorship',
+    //   '1/16/2021',
+    //   'Virtual Network',
+    //   '0,040777776'
+    // ],
+    // [ 'DP100 Sponsorship', '1/17/2021', 'Logic Apps', '0,0001' ],
+    // [
+    //   'DP100 Sponsorship',
+    //   '1/17/2021',
+    //   'Virtual Network',
+    //   '0,0755499996'
+    // ]];
     
-   console.log('C EST LA FIN, VAMOS!!!');
+    // //lista =[[`DP100 Sponsorship`, `1/7/2021`, `Key Vault`, `hola`],[`DP100 Sponsorship22`, `1/7/2021`, `Key Vault`, `hola6`]] ;
+    // // lista=[["Simplon Rennes","1/25/2021","Load Balancer","hola"],["Simplon Rennes","1/25/2021","Storage","hola"]];
+    // // //lista=["Simplon Rennes","1/25/2021","Load Balancer","hola"];
+    // connec_bdd.save_data(lista);
+    console.log('C EST LA FIN, VAMOS!!!');
