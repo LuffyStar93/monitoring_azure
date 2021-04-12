@@ -1,14 +1,18 @@
-//var mysql = require('mysql');
 const mysql = require('mysql2');
+require('dotenv').config();
+
+const host = process.env.DB_HOST;
+const user = process.env.DB_USER;
+const password = process.env.DB_PWD;
+const database = process.env.DB_DATABASE;
 
 //il faudra voir comme diferencier la connection pour lapremier fois, sans bdd et
 //depuis avec la bdd, A VOIR!!
 var con = mysql.createConnection({
-    host: "localhost", //"52.247.113.111",////==> VM les4M
-    user: "root",
-    //password: "pwd", /*//==> utiliser avec la VM les4M */
-    //port: "3306"
-    database : 'monitoring' //==> enlever pour la premier utilisation
+    host: host,
+    user: user,
+    password: password,   
+    database : database
   });
 
 
@@ -45,20 +49,19 @@ module.exports = {
     },
     save_data: async function (donnes) {
       
-      //var liste_json = JSON.parse(JSON.stringify(donnes));//JSON.stringify(donnes);// stringify convertit une valeur JavaScript en chaîne JSON
-      var liste_json = JSON.stringify(donnes);
-      console.log('valeur JSON ==> ', liste_json);
+      var liste_json = JSON.parse(JSON.stringify(donnes));//==> retourn Objet JSON.stringify(donnes);// stringify convertit une valeur JavaScript en chaîne JSON
+
+      // console.log('type donnes ==> ', typeof(donnes)); // type donnes ==>  object
+      // console.log('taille donnes ==> ', donnes.length);
+      //console.log('contenu JSON ==> ', liste_json);
 
       con.connect(function(err) {
         if (err) throw err;
-          console.log("Connecté à la base de données MySQL dans save_data!"); 
+          console.log("Connecté à la base de données MySQL dans save_data!");       
       
-      //je continue à tester comment enregistrer avec plusiers transactions  
-        //let req_query = "INSERT INTO `consomation` (`promo` ,`date`,`service`,`cost`) VALUES ('test1','test1','test1','test1') ;";
-        let req_query = "INSERT INTO `consomation` (`promo` ,`date`,`service`,`cost`) VALUES '?' ;";
-        console.log('********** requete *********');
-        console.log(req_query);
-        con.query(req_query, liste_json, function (err, result, fields) {
+        let req_query = "INSERT INTO `consomation` (`promo` ,`date`,`service`,`cost`) VALUES ? ";
+
+        con.query(req_query, [liste_json], function (err, result, fields) {
               if (err) throw err;
               console.log("donnes enregistre !");
               console.log("Number of records inserted: " + result.affectedRows);
@@ -67,15 +70,7 @@ module.exports = {
           });
 
       });
-      // whatever
+      
     }
   };
-
-
-/**
- * BLOQUE CONNEXION ET ENREGISTRIMENT BDD
- */
- 
-
- 
   
