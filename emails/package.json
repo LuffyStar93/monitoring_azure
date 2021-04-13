@@ -10,18 +10,15 @@
         "type": "git",
         "url": "git+https://github.com/LuffyStar93/monitoring_azure.git"
     },
-    "author": "",
+    "author": "Morjane",
     "license": "ISC",
     "bugs": {
         "url": "https://github.com/LuffyStar93/monitoring_azure/issues"
     },
     "homepage": "https://github.com/LuffyStar93/monitoring_azure#readme",
     "dependencies": {
-        "@azure/storage-blob": "^12.5.0",
-        "base64-stream": "^1.0.0",
-        "bluebird": "^3.7.2",
         "dotenv": "^8.2.0",
-        "imap": "^0.8.19",
-        "mailparser": "^3.2.0"
+        "download-email-attachments": "^2.0.1",
+        "pkgcloud": "^2.2.0"
     }
 }

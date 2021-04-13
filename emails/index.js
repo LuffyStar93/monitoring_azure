@@ -1,157 +1,86 @@
-const Imap = require("imap");
-const inspect = require("util").inspect;
-var fs      = require("fs");
-var base64  = require("base64-stream");
-const { BlobServiceClient, StorageSharedKeyCredential } = require("@azure/storage-blob");
+var fs = require("fs");
+var pkgcloud = require('pkgcloud');
 require('dotenv').config();
 
-var imapConfig = {
-    user: process.env.GMAIL_USER_LOGIN,
-    password: process.env.GMAIL_USER_PASSWORD,
-    host: 'imap.gmail.com',
-    port: 993,
-    tls: true,
-    tlsOptions: { rejectUnauthorized: false }
-};
+const downloadEmailAttachments = require('download-email-attachments');
+/* If output name of the file is not coming well, just go to save-attachment-stream.js
+and for var generatedFileName remove .replace method.
+node_modules\download-email-attachments\lib\save-attachment-stream.js
+var generatedFileName = replaceTemplate(state.filenameTemplate,meta)//.replace(state.invalidChars, '_')
+*/
 
-var imap = new Imap(imapConfig);
-imap.connect();
+const moment = require('moment');
+const opDir = ".";
+const email = process.env.GMAIL_USER_LOGIN;
+const password =  process.env.GMAIL_USER_PASSWORD;
+const port = 993;
+const host = 'imap.gmail.com';
+const todaysDate = moment().format('YYYY-MM-DD');
+var reTry = 1;
 
-async function openInbox(callback) {
-    imap.openBox('INBOX', true, callback);
+var config_attachment = {
+    invalidChars: /\W/g,
+    account: `"${email}":${password}@${host}:${port}`,
+    directory: opDir,
+    filenameTemplate: '{filename}',
+    filenameFilter: /.xlsx?$/,
+    timeout: 10000,
+    log: {  warn: console.warn,
+            debug: console.info,
+            error: console.error,
+            info: console.info
+        },
+    since: todaysDate,
+    lastSyncIds: ['234', '234', '5345'],
+    attachmentHandler: function (attachmentData, callback, errorCB) {
+        console.log(attachmentData);
+        callback()
+    }
 }
 
-imap.once('ready',function(){
-    openInbox(function(err,box){
+var onEnd = (result) => {
 
-        if(err) throw err;
-        console.log("connected"); // CONNEXION A LA BOITE GMAIL
-
-        imap.search(
-            ['UNSEEN', ['SINCE', 'April 09, 2021'],
-            ['FROM', process.env.EMAIL_SENDER]],
-            function(err, results){
-                if(err) throw err;
-                console.log("email non lu"); // LECTURE DES EMAILS NON LUS ENVOYES PAR UNE ADRESSE MAIL PRECISE
-
-                var f = imap.fetch(results,{bodies: ['HEADER.FIELDS (FROM TO SUBJECT DATE)'], struct: true});
-                f.on('message',function(message,num_seq){ // LECTURE DU MESSAGE CONTENU DANS LE CORPS DU MAIL
-                    console.log('Message #%d',num_seq);
-                    var prefix = '(#' + num_seq + ') ';
-
-                    message.on('body',function(stream,info){
-                        var buffer = ''; // INITIALISATION DU BUFFER
-
-                        stream.on('data',function(chunk){
-                            buffer += chunk.toString('utf8'); // CONCATENATION DU BUFFER AVEC LE CONTENU DU STREAM
-                        });
-
-                        stream.once('end', function() { // FIN DU STREAM
-                            console.log(prefix + 'Parsed header: %s', inspect(Imap.parseHeader(buffer)));
-                        });
-                    });
-
-                    message.once('attributes',function(attributes){ // LECTURE DES ATTRIBUTS DU CORPS DU MAIL
-                        console.log(prefix + 'Has attachments: %d', attributes.struct.length);
-                        for(i=0;i<attributes.struct.length;i++){
-                            if(attributes.struct[i][0] != undefined){
-                                try{
-                                    console.log("filename : ",attributes.struct[i][0]["disposition"]["params"]["filename"]);
-                                    console.log(prefix + 'Fetching attachment %s', attributes.struct[i][0]["disposition"]["params"]["filename"]);
-                                    var f = imap.fetch(attributes.uid , {
-                                        bodies: [attributes.struct[i][0].partID],
-                                        struct: true
-                                    });
-
-                                    // RECUPERATION DU FICHIER EXCEL
-                                    f.on('message',buildAttachmentMessageFunction(attributes.struct[i]));
-
-                                }catch{
-
-                                }
-                            }
-                        }
-                    });
-
-                    message.once('end',function(){ // FIN DE LECTURE DU MESSAGE
-                        console.log(prefix + 'Finished');
-                    });
-                });
-
-                f.once('error', function(err) { // ERREUR DE LECTURE DU MESSAGE
-                    console.log('Fetch error: ' + err);
-                });
-                
-                f.once('end', function() { // FIN DE LECTURE DU MAIL
-                    console.log('Done fetching all messages!');
-                    imap.end();
-                });
-        });
-    });
-});
-
-function buildAttachmentMessageFunction(attachment) {
-    var filename = attachment[0]["disposition"]["params"]["filename"];
-    var encoding = attachment.encoding;
-  
-    return function (message, seqno) {
-        var prefix = '(#' + seqno + ') ';
-        message.on('body', function(stream, info) {
-            //Create a write stream so that we can stream the attachment to file;
-            console.log(prefix + 'Streaming this attachment to file', filename, info);
-            var writeStream = fs.createWriteStream(filename);
-            writeStream.on('finish', function() {
-                console.log(prefix + 'Done writing to file %s', filename);
-            });
-    
-            //stream.pipe(writeStream); this would write base64 data to the file.
-            //so we decode during streaming using 
-            if (encoding === 'BASE64') {
-                //the stream is base64 encoded, so here the stream is decode on the fly and piped to the write stream (file)
-                stream.pipe(base64.decode()).pipe(writeStream);
-            } else  {
-                //here we have none or some other decoding streamed directly to the file which renders it useless probably
-                stream.pipe(writeStream);
+    if (result.errors || result.error) {
+        console.log("Error ----> ", result);
+        if(reTry < 4 ) {
+             console.log('retrying....', reTry++)
+             return downloadEmailAttachments(config_attachment, onEnd);
+        } else  console.log('Failed to download attachment')
+    } else {
+        console.log("done ----> ");
+        fs.readdirSync('.').forEach(file =>{
+            if(file.slice(file.lastIndexOf('.'),file.length)=='.xlsx'){
+                console.log(file);
+                uploadBlobStorage(file,process.env.AZURE_STORAGE_CONTAINER_NAME);
             }
         });
-        message.once('end', function() {
-            console.log(prefix + 'Finished attachment %s', filename);
-            uploadBlobStorage(filename,"images");
-        });
-    };
-};
+    }
+}
 
 async function uploadBlobStorage(filename,containerName){
 
-    const account = process.env.AZURE_STORAGE_ACCOUNT_NAME || "";
-    const accountKey = process.env.AZURE_STORAGE_ACCOUNT_KEY || "";
-    const customBlockSize = 4 * 1024 * 1024;
-
-    const sharedKeyCredential = new StorageSharedKeyCredential(account, accountKey);
-
-    const blobServiceClient = new BlobServiceClient(
-        `https://${account}.blob.core.windows.net`,sharedKeyCredential
-    );
-    blobServiceClient.singleBlobPutThresholdInBytes = customBlockSize;
-
-    const containerClient = blobServiceClient.getContainerClient(containerName);
-    const blobClient = containerClient.getBlobClient(filename);
-    const blockBlobClient = blobClient.getBlockBlobClient();
-
-    var content = "";
-    fs.open(filename,'r',function(status,fd){
-        if (status) {
-            console.log(status.message);
-            return;
-        }
-        var buffer = Buffer.alloc(customBlockSize);
-        fs.read(fd, buffer, 0, customBlockSize, 0, function(err, num) {
-            content = buffer.toString('base64', 0, num);
-            console.log(content);
-        });
+    var client = pkgcloud.storage.createClient({
+        provider: 'azure',
+        storageAccount: process.env.AZURE_STORAGE_ACCOUNT_NAME,
+        storageAccessKey: process.env.AZURE_STORAGE_ACCOUNT_KEY
     });
-
-    const uploadBlobResponse = await blockBlobClient.upload(content, content.length);
-    console.log(`Upload block blob ${filename} successfully`, uploadBlobResponse.requestId);
+      
+    var readStream = fs.createReadStream(filename);
+    var writeStream = client.upload({
+        container: containerName,
+        remote: filename
+    });
+      
+    writeStream.on('error', function (err) {
+        console.log("failed to upload file in azure storage : ",err);
+    });
+      
+    writeStream.on('success', function (file) {
+        console.log(file," uploaded successfully");
+    });
+      
+    readStream.pipe(writeStream);
 
 }
+
+downloadEmailAttachments(config_attachment, onEnd);
