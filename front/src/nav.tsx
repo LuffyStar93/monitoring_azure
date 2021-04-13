@@ -70,16 +70,27 @@ function Nav() {
                   <Paper>
                     <ClickAwayListener onClickAway={handleClose}>
                       <MenuList autoFocusItem={open} id="menu-list-grow" onKeyDown={handleListKeyDown}>
+                      <MenuItem onClick={handleClose}><Link className="link_menu" to={{ pathname: "/SimplonCloudAulnay", state: {url:"http://monitoresimploncost.azurewebsites.net/api/promo/aulnay", nom:"Simplon Cloud Aulnay"} }}> Simplon Cloud Aulnay</Link></MenuItem>
+                      <MenuItem onClick={handleClose}><Link className="link_menu" to={{ pathname: "/SimplonNantesIA1", state: {url:"http://monitoresimploncost.azurewebsites.net/api/promo/nantes", nom:"Simplon Nantes IA1"} }}> Simplon Nantes IA1</Link></MenuItem>
+                      <MenuItem onClick={handleClose}><Link className="link_menu" to={{ pathname: "/SimplonNantesIA1", state: "simplon nante" }}> Simplon Bordeaux IA1</Link></MenuItem>
+                      <MenuItem onClick={handleClose}><Link className="link_menu" to={{ pathname: "/SimplonNantesIA1", state: "simplon nante" }}> Simplon Nantes IA1</Link></MenuItem>
+                      <MenuItem onClick={handleClose}><Link className="link_menu" to={{ pathname: "/SimplonNantesIA1", state: "simplon nante" }}> Simplon Nantes IA1</Link></MenuItem>
+                      <MenuItem onClick={handleClose}><Link className="link_menu" to={{ pathname: "/SimplonNantesIA1", state: "simplon nante" }}> Simplon Bordeaux IA1</Link></MenuItem>
+                      <MenuItem onClick={handleClose}><Link className="link_menu" to={{ pathname: "/SimplonNantesIA1", state: "simplon nante" }}> Simplon Nantes IA1</Link></MenuItem>
+                      <MenuItem onClick={handleClose}><Link className="link_menu" to={{ pathname: "/SimplonNantesIA1", state: "simplon nante" }}> Simplon Nantes IA1</Link></MenuItem>
+                      <MenuItem onClick={handleClose}><Link className="link_menu" to={{ pathname: "/SimplonNantesIA1", state: "simplon nante" }}> Simplon Bordeaux IA1</Link></MenuItem>
+                      <MenuItem onClick={handleClose}><Link className="link_menu" to={{ pathname: "/SimplonNantesIA1", state: "simplon nante" }}> Simplon Nantes IA1</Link></MenuItem>
+                      <MenuItem onClick={handleClose}><Link className="link_menu" to={{ pathname: "/SimplonNantesIA1", state: "simplon nante" }}> Simplon Bordeaux IA1</Link></MenuItem>
+                      <MenuItem onClick={handleClose}><Link className="link_menu" to={{ pathname: "/SimplonNantesIA1", state: "simplon nante" }}> Simplon Nantes IA1</Link></MenuItem>
+                      {/* <MenuItem onClick={handleClose}>Simplon Nantes IA1</MenuItem> */}
+                      {/* <MenuItem onClick={handleClose}>Simplon Bordeaux IA1</MenuItem>
                       <MenuItem onClick={handleClose}>Simplon Cloud Aulnay</MenuItem>
                       <MenuItem onClick={handleClose}>Simplon Nantes IA1</MenuItem>
                       <MenuItem onClick={handleClose}>Simplon Bordeaux IA1</MenuItem>
                       <MenuItem onClick={handleClose}>Simplon Cloud Aulnay</MenuItem>
                       <MenuItem onClick={handleClose}>Simplon Nantes IA1</MenuItem>
                       <MenuItem onClick={handleClose}>Simplon Bordeaux IA1</MenuItem>
-                      <MenuItem onClick={handleClose}>Simplon Cloud Aulnay</MenuItem>
-                      <MenuItem onClick={handleClose}>Simplon Nantes IA1</MenuItem>
-                      <MenuItem onClick={handleClose}>Simplon Bordeaux IA1</MenuItem>
-                      <MenuItem onClick={handleClose}>Simplon Bordeaux IA1</MenuItem>
+                      <MenuItem onClick={handleClose}>Simplon Bordeaux IA1</MenuItem> */}
                       </MenuList>
                     </ClickAwayListener>
                   </Paper>

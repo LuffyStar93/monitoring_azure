@@ -1,14 +1,14 @@
 #nav{
-    background: black;
+    background: lavender;
     display: flex;
-    color: white;
+    color: black !important;
     font-family: "Roboto", "Helvetica", "Arial", sans-serif;
     font-size: 18px;
     font-weight: 500;
     
 }
 .MuiButton-root{
-    color: white !important;
+    color: black !important;
     font-size: 18px  !important;
     height: 50px !important;
     width: 100% !important;
@@ -18,7 +18,7 @@
 
 .nav_link{
     text-decoration: none;
-    color: white;
+    color: black;
     display: block;
     cursor: pointer;
     width: 33%;
@@ -31,4 +31,21 @@
     -moz-transition: .7s;
     -ms-transition: .7s;
     -o-transition: .7s;
+}
+
+.link_menu{
+    text-decoration: none;
+    color: black;
+
+}
+
+.link_menu:hover{
+    color: darkgrey;
+    font-size: 20px;
+}
+
+.MuiList-root, .MuiList-padding,.MuiButtonBase-root, .MuiListItem-root, .MuiMenuItem-root, .MuiMenuItem-gutters, .MuiListItem-gutters, .MuiListItem-button{
+    background: lavender !important;
+    color: black !important;
+    width:300px;
 }
