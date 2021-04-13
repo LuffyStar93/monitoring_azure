@@ -120,8 +120,9 @@ app.get('/api/conso/promo', async (req, res) => {
 
 
 app.get('/api/endpoints', (req, res) =>{
-  res.send(['http://localhost:3001/api/promo/aulnay', 'http://localhost:3001/api/rennes', 'http://localhost:3001/api/promo/marseille', 'http://localhost:3001/api/promo/castelnau', 
-'http://localhost:3001/api/promo/nouvelle-aquitaine', 'http://localhost:3001/api/promo/bordeaux', 'http://localhost:3001/api/rennes_ia', 'http://localhost:3001/api/promo/nantes', 'http://localhost:3001/api/promo/strasbourg', 'http://localhost:3001/api/all', 'http://localhost:3001/api/promo/nancy'])
+  res.send(['http://monitoresimploncost.azurewebsites.net/api/promo/aulnay', 'http://monitoresimploncost.azurewebsites.net/rennes', 'http://monitoresimploncost.azurewebsites.net/api/promo/marseille', 'http://monitoresimploncost.azurewebsites.net/api/promo/castelnau', 
+'http://monitoresimploncost.azurewebsites.net/api/promo/nouvelle-aquitaine', 'http://monitoresimploncost.azurewebsites.net/api/promo/bordeaux', 'http://monitoresimploncost.azurewebsites.net/api/rennes_ia', 'http://monitoresimploncost.azurewebsites.net/api/promo/nantes', 'http://monitoresimploncost.azurewebsites.net/api/promo/strasbourg', 'http://monitoresimploncost.azurewebsites.net/api/all', 'http://monitoresimploncost.azurewebsites.net/api/promo/nancy',
+'http://monitoresimploncost.azurewebsites.net/api/conso/promo', "http://monitoresimploncost.azurewebsites.net/api/serviceConso", 'http://monitoresimploncost.azurewebsites.net/api/dailyConso'])
 })
 
 
