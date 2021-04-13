@@ -1,12 +1,14 @@
 const express = require('express');
 const mysql = require('mysql2');
-
+const cors = require('cors')
 //const apiRouter = require("./routes/index.js")
 const pool = require("./db/index.js")
 const app = express()
-const port = 3001
+const port = process.env.PORT || 3001;
 
 app.use(express.json())
+app.use(cors())
+
 
 app.get("/", (req, res) => {
   res.send('Hello word')
@@ -144,7 +146,39 @@ app.get('/api/aulnay', async (req, res) => {
     console.log({results})
     res.json({ results });
   })
-  
+})
+
+app.get('/api/dailyConso', async (req, res) => {
+  const query = "SELECT SUM(cost) AS totalDailyCost, date FROM consomation GROUP BY date";
+  pool.query(query, (error, results) => {
+    if(!results[0]){
+      res.json({status : "not found"})
+    }
+    console.log({results})
+    res.json({ results });
+  })
+})
+
+app.get('/api/serviceConso', async (req, res) => {
+  const query = "SELECT SUM(cost) AS totalServiceCost, service FROM consomation GROUP BY service";
+  pool.query(query, (error, results) => {
+    if(!results[0]){
+      res.json({status : "not found"})
+    }
+    console.log({results})
+    res.json({ results });
+  })
+})
+
+app.get('/api/conso/promo', async (req, res) => {
+  const query = "SELECT promo, count(cost) as promoTotalCost FROM consomation GROUP BY promo";
+  pool.query(query, (error, results) => {
+    if(!results[0]){
+      res.json({status : "not found"})
+    }
+    console.log({results})
+    res.json({ results });
+  })
 })
 
 app.get('/api/endpoints', (req, res) =>{
