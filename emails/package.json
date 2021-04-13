@@ -1,0 +1,24 @@
+{
+    "name": "monitoring_azure",
+    "version": "1.0.0",
+    "description": "manage azure resource consumption",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/LuffyStar93/monitoring_azure.git"
+    },
+    "author": "Morjane",
+    "license": "ISC",
+    "bugs": {
+        "url": "https://github.com/LuffyStar93/monitoring_azure/issues"
+    },
+    "homepage": "https://github.com/LuffyStar93/monitoring_azure#readme",
+    "dependencies": {
+        "dotenv": "^8.2.0",
+        "download-email-attachments": "^2.0.1",
+        "pkgcloud": "^2.2.0"
+    }
+}
