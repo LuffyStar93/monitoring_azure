@@ -15,7 +15,7 @@ const email = process.env.GMAIL_USER_LOGIN;
 const password =  process.env.GMAIL_USER_PASSWORD;
 const port = 993;
 const host = 'imap.gmail.com';
-const todaysDate = '2021-04-13';//*moment().format('YYYY-MM-DD');
+const todaysDate = moment().format('YYYY-MM-DD');
 var reTry = 1;
 
 var config_attachment = {
