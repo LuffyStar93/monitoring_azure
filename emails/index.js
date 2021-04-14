@@ -83,4 +83,8 @@ async function uploadBlobStorage(filename,containerName){
 
 }
 
-downloadEmailAttachments(config_attachment, onEnd);
+function upload_file(){
+    downloadEmailAttachments(config_attachment, onEnd);    
+}
+
+module.exports.upload_file = upload_file;
