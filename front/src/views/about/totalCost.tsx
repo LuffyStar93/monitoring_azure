@@ -11,7 +11,7 @@ const About = () => {
   }, []);
 
   const getDataFetch = async () => {
-    const response = await axios.get("http://monitoresimploncost.azurewebsites.net/api/conso/promo");
+    const response = await axios.get("https://monitoresimploncost.azurewebsites.net/api/conso/promo");
     if(response.data){
       setUserData(response.data.results);
       console.log(response.data.results);
