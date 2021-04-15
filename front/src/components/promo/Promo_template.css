@@ -1,6 +1,6 @@
 body{
-    background-color: darkgrey;
-    color: black;
+    background-color: #282c34;
+    color: white;
 
 }
 
@@ -14,6 +14,7 @@ body{
 
 .uptake_table{
     width: 90%;
+    color: black;
 }
 .uptake_table, tr, td, th, tbody, thead{
     border: 1px solid black;
@@ -27,10 +28,6 @@ thead, th{
     
     background: lightgray;
     text-transform: uppercase;
-}
-
-tbody{
-    color: black;
 }
 
 tbody tr{

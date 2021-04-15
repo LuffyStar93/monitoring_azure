@@ -47,5 +47,5 @@
 .MuiList-root, .MuiList-padding,.MuiButtonBase-root, .MuiListItem-root, .MuiMenuItem-root, .MuiMenuItem-gutters, .MuiListItem-gutters, .MuiListItem-button{
     background: lavender !important;
     color: black !important;
-    width:300px;
+    width:380px;
 }

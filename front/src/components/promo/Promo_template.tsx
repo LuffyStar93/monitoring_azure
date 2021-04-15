@@ -4,14 +4,16 @@ import axios from 'axios';
 
 
 
-const SimplonCloud = (props:any) => {
+const Promo_data = (props:any) => {
   const [userData, setUserData] = useState<any>({});
   const url = props.location.state.url;
   const name = props.location.state.nom;
   console.log(props.location.state);
 
+
   useEffect(() => {
     getDataFetch();
+  // eslint-disable-next-line
   }, []);
 
   const getDataFetch = async () => {
@@ -23,10 +25,9 @@ const SimplonCloud = (props:any) => {
     }
   };
 
-
-
   return (
     <div id="uptake_section">
+      
       <h2>Consommation {name} </h2>
       <table className="uptake_table">
         <thead>
@@ -38,23 +39,17 @@ const SimplonCloud = (props:any) => {
           </tr>
         </thead>
         <tbody>
-          {userData.length > 0 && userData.map(event => (<tr>
-                  <td>{event.date}</td>
-                  <td>{event.service}</td>
-                  <td>{event.cost} $</td>
+          {userData.length > 0 && userData.map(row => (<tr>
+                  <td>{row.date}</td>
+                  <td>{row.service}</td>
+                  <td>{row.cost} $</td>
                </tr>))}
 
         </tbody>
       </table>
-
-      <ul>
-        {/* {JSON.stringify(userData)}  */}
-      </ul>
-      
     </div>
   );
 };
 
 
-
-export default SimplonCloud;
+export default Promo_data;
