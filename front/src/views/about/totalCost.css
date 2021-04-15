@@ -1,0 +1,27 @@
+#section-cost{
+    color: white; 
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;  
+}
+
+#title_h3{
+    font-size: 28px;
+}
+
+#list{
+    padding: 20px;
+    border: 1px solid black;
+    background: rgba(0, 0, 0, .4);
+    border-radius: 10px;
+    font-size: 18px;
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+}
+
+ul{
+    list-style: none;
+}

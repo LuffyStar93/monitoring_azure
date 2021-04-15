@@ -1,0 +1,39 @@
+body{
+    background-color: #282c34;
+    color: white;
+
+}
+
+#uptake_section{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100% ;
+}
+
+.uptake_table{
+    width: 90%;
+    color: black;
+}
+.uptake_table, tr, td, th, tbody, thead{
+    border: 1px solid black;
+    border-collapse: collapse;
+
+    text-align: center;
+    height: 50px;
+}
+
+thead, th{
+    
+    background: lightgray;
+    text-transform: uppercase;
+}
+
+tbody tr{
+    background: lavender;
+}
+
+tbody tr:nth-of-type(even) {
+    background:lavenderblush;
+}
